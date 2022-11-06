@@ -1,12 +1,12 @@
 package cc.h3x.taks
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import cc.h3x.taks.databinding.FragmentSecondBinding
 
 /**
@@ -38,11 +38,13 @@ class SecondFragment : Fragment() {
 //            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
 //        }
 
+        val db = Room.databaseBuilder(
+            requireContext().applicationContext,
+            TodoDatabase::class.java, getString(R.string.taskDbName)
+        ).allowMainThreadQueries().build()
+
         binding.rvTodoItems.layoutManager = LinearLayoutManager(activity)
-        binding.rvTodoItems.adapter = TodoAdapter(todos = mutableListOf(
-            Todo("dummy", false),
-            Todo("test", true)
-        ))
+        binding.rvTodoItems.adapter = TodoAdapter(db.todoDao())
     }
 
     override fun onDestroyView() {

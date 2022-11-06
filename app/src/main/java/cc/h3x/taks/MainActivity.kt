@@ -1,16 +1,17 @@
 package cc.h3x.taks
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import cc.h3x.taks.databinding.ActivityMainBinding
+import com.google.android.material.color.DynamicColors
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,10 +33,10 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Not yet implemented", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
-                .setAction("Action", null).show()
+            startActivity(Intent(this, AddTodo::class.java))
         }
+
+        DynamicColors.applyIfAvailable(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -10,10 +10,15 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import cc.h3x.taks.databinding.ItemViewBinding
 
-class TodoAdapter(private val todos: MutableList<Todo>) :
+class TodoAdapter(private val todosDb: TodoDao) :
     RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private lateinit var binding: ItemViewBinding
+    private var todos: MutableList<Todo>
+
+    init {
+        todos = todosDb.getAll().toMutableList()
+    }
 
     class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView
@@ -37,7 +42,7 @@ class TodoAdapter(private val todos: MutableList<Todo>) :
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val currTodo = todos[position]
-        holder.textView.text = currTodo.task
+        holder.textView.text = currTodo.description
         holder.done.isChecked = currTodo.complete
 
         if (currTodo.complete) {
@@ -45,7 +50,8 @@ class TodoAdapter(private val todos: MutableList<Todo>) :
         }
 
         holder.card.setOnClickListener { view ->
-            currTodo.complete = true
+            currTodo.complete = !currTodo.complete
+            todosDb.update(currTodo)
             notifyItemChanged(position)
         }
     }
