@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import cc.h3x.taks.databinding.FragmentSecondBinding
@@ -23,7 +24,7 @@ class SecondFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
@@ -44,7 +45,11 @@ class SecondFragment : Fragment() {
         ).allowMainThreadQueries().build()
 
         binding.rvTodoItems.layoutManager = LinearLayoutManager(activity)
-        binding.rvTodoItems.adapter = TodoAdapter(db.todoDao())
+
+        val adapter = TodoAdapter(db.todoDao())
+        binding.rvTodoItems.adapter = adapter
+
+        ItemTouchHelper(SwipeItem(adapter)).attachToRecyclerView(binding.rvTodoItems)
     }
 
     override fun onDestroyView() {

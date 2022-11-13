@@ -38,7 +38,7 @@ class AddTodo : ComponentActivity() {
 
                     Row {
                         OutlinedTextField(value = x, onValueChange = { newVal -> x = newVal })
-                        Column() {
+                        Column {
                             Button(onClick = saveTodo(db, x, ctx)) {
                                 Text("Save")
                             }
@@ -74,7 +74,7 @@ fun TodoDisplay(todo: Todo) {
                 .fillMaxWidth()
         )
         {
-            var todo by remember {
+            val todo by remember {
                 mutableStateOf(todo)
             }
             Row {

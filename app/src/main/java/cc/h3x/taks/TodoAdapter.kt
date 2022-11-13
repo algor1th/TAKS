@@ -59,4 +59,10 @@ class TodoAdapter(private val todosDb: TodoDao) :
     override fun getItemCount(): Int {
         return todos.size
     }
+
+    fun deleteItem(i: Int) {
+        todosDb.delete(todos.get(i))
+        todos.removeAt(i)
+        notifyItemRemoved(i)
+    }
 }
