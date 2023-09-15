@@ -31,7 +31,7 @@ class AddTodo : ComponentActivity() {
                     val db = Room.databaseBuilder(
                         applicationContext,
                         TodoDatabase::class.java, "default"
-                    ).allowMainThreadQueries().build()
+                    ).build()
                     var x by remember { mutableStateOf("") }
 
                     val ctx = LocalContext.current
@@ -56,9 +56,11 @@ class AddTodo : ComponentActivity() {
         description: String,
         ctx: Context
     ) = {
-        db.todoDao().insertAll(
-            Todo(0, description, false)
-        )
+        Thread {
+            db.todoDao().insertAll(
+                Todo(0, description, false)
+            )
+        }.start()
         startActivity(Intent(ctx, MainActivity::class.java))
     }
 }

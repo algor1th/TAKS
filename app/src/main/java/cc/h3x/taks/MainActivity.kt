@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val db = Room.databaseBuilder(
             applicationContext,
             TodoDatabase::class.java, getString(R.string.taskDbName)
-        ).allowMainThreadQueries().build()
+        ).build()
 
         binding.rvTodoItems.layoutManager = LinearLayoutManager(this)
 

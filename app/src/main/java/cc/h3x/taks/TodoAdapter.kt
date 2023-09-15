@@ -14,10 +14,12 @@ class TodoAdapter(private val todosDb: TodoDao) :
     RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private lateinit var binding: ItemViewBinding
-    private var todos: MutableList<Todo>
+    private lateinit var todos: MutableList<Todo>
 
     init {
-        todos = todosDb.getAll().toMutableList()
+        Thread {
+            todos = todosDb.getAll().toMutableList()
+        }.start()
     }
 
     class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -50,8 +52,10 @@ class TodoAdapter(private val todosDb: TodoDao) :
         }
 
         holder.card.setOnClickListener { view ->
-            currTodo.complete = !currTodo.complete
-            todosDb.update(currTodo)
+            Thread {
+                currTodo.complete = !currTodo.complete
+                todosDb.update(currTodo)
+            }.start()
             notifyItemChanged(position)
         }
     }
@@ -61,8 +65,10 @@ class TodoAdapter(private val todosDb: TodoDao) :
     }
 
     fun deleteItem(i: Int) {
-        todosDb.delete(todos.get(i))
-        todos.removeAt(i)
+        Thread {
+            todosDb.delete(todos.get(i))
+            todos.removeAt(i)
+        }.start()
         notifyItemRemoved(i)
     }
 }
