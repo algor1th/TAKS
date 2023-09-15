@@ -10,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,9 +37,17 @@ class AddTodo : ComponentActivity() {
                     var x by remember { mutableStateOf("") }
 
                     val ctx = LocalContext.current
+                    val focusrequester = FocusRequester()
+
+                    LaunchedEffect(Unit) {
+                        focusrequester.requestFocus()
+                    }
 
                     Row {
-                        OutlinedTextField(value = x, onValueChange = { newVal -> x = newVal })
+                        OutlinedTextField(
+                            value = x, onValueChange = { newVal -> x = newVal },
+                            modifier = Modifier.focusRequester(focusrequester)
+                        )
                         Column {
                             Button(onClick = saveTodo(db, x, ctx)) {
                                 Text("Save")
