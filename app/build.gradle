@@ -60,8 +60,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:+'
-    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-ktx:1.13.1'
     def room_version = "2.5.0"
 
     implementation "androidx.room:room-runtime:$room_version"
